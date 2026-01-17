@@ -61,6 +61,9 @@ body{
     radial-gradient(900px 520px at 88% 18%, rgba(244,164,96,0.40), transparent 58%),
     radial-gradient(900px 520px at 50% 95%, rgba(179,179,71,0.35), transparent 60%),
     linear-gradient(180deg, var(--bg-top), var(--bg-mid), var(--bg-low));
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Typography */

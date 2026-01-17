@@ -23,6 +23,10 @@
 /* Page */
 .homePage{
   min-height: 100vh;
+.survey {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  place-items: center;
   padding: 2rem;
   box-sizing: border-box;
 }
