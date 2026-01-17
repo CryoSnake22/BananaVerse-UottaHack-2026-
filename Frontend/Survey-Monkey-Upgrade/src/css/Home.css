@@ -1,0 +1,182 @@
+.home {
+    display: flex;
+    flex-direction: flex-start;
+    padding-left: 10%;
+}
+
+.survey {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+ 
+}
+
+/* animation wrapper */
+.survey-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  will-change: transform, opacity;
+}
+
+/* NEXT direction: current swipes DOWN, next comes from TOP */
+.survey-stage.leaving.next {
+  animation: swipeDown 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.survey-stage.entering.next {
+  animation: dropInFromTop 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* PREV direction: current swipes UP, previous comes from BOTTOM */
+.survey-stage.leaving.prev {
+  animation: swipeUp 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.survey-stage.entering.prev {
+  animation: riseInFromBottom 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Keep opacity higher for longer so you can see the motion */
+@keyframes swipeDown {
+  0%   { transform: translateY(0);     opacity: 1; }
+  70%  { transform: translateY(1.6rem); opacity: 0.95; }
+  100% { transform: translateY(2.6rem); opacity: 0; }
+}
+
+@keyframes dropInFromTop {
+  0%   { transform: translateY(-2.6rem); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: translateY(0);       opacity: 1; }
+}
+
+@keyframes swipeUp {
+  0%   { transform: translateY(0);      opacity: 1; }
+  70%  { transform: translateY(-1.6rem); opacity: 0.95; }
+  100% { transform: translateY(-2.6rem); opacity: 0; }
+}
+
+@keyframes riseInFromBottom {
+  0%   { transform: translateY(2.6rem); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: translateY(0);      opacity: 1; }
+}
+
+/* Buttons row */
+.survey-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 0.9rem;
+  padding: 0.85rem 1.1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 160ms ease, filter 160ms ease, opacity 160ms ease;
+}
+
+.btn:active {
+  transform: translateY(0.08rem);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn.primary {
+  background: rgba(25, 25, 30, 0.92);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.btn.secondary {
+  background: rgba(255, 255, 255, 0.78);
+  color: rgba(20, 20, 24, 0.92);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: rgba(20, 20, 24, 0.7);
+}
+
+.btn:hover {
+  filter: brightness(1.06);
+}
+
+/* Small progress text */
+.progress {
+  font-size: 0.95rem;
+  color: rgba(20, 20, 24, 0.6);
+}
+
+
+:root {
+  --anim: 720ms;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1); /* super smooth */
+  --dist: 3.25rem;
+}
+
+/* wrapper */
+.survey-stage {
+  will-change: transform, opacity, filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* NEXT */
+.survey-stage.leaving.next {
+  animation: swipeDown var(--anim) var(--ease-smooth) forwards;
+}
+.survey-stage.entering.next {
+  animation: dropInFromTop var(--anim) var(--ease-smooth) forwards;
+}
+
+/* PREV */
+.survey-stage.leaving.prev {
+  animation: swipeUp var(--anim) var(--ease-smooth) forwards;
+}
+.survey-stage.entering.prev {
+  animation: riseInFromBottom var(--anim) var(--ease-smooth) forwards;
+}
+
+@keyframes swipeDown {
+  0%   { transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+  60%  { opacity: 0.92; }
+  100% { transform: translateY(var(--dist)) scale(0.99); opacity: 0; filter: blur(2px); }
+}
+
+@keyframes dropInFromTop {
+  0%   { transform: translateY(calc(-1 * var(--dist))) scale(0.99); opacity: 0; filter: blur(2px); }
+  55%  { opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+}
+
+@keyframes swipeUp {
+  0%   { transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+  60%  { opacity: 0.92; }
+  100% { transform: translateY(calc(-1 * var(--dist))) scale(0.99); opacity: 0; filter: blur(2px); }
+}
+
+@keyframes riseInFromBottom {
+  0%   { transform: translateY(var(--dist)) scale(0.99); opacity: 0; filter: blur(2px); }
+  55%  { opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .survey-stage.leaving.next,
+  .survey-stage.entering.next,
+  .survey-stage.leaving.prev,
+  .survey-stage.entering.prev {
+    animation: none;
+  }
+}
