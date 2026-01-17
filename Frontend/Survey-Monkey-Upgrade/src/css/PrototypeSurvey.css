@@ -2,12 +2,22 @@
    Home.css (UPDATED FULL)
    Copy/paste over your Home.css
    =========================== */
+
+/* Prevent any scrolling at root level */
+html,
+body {
+  overflow: hidden;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --anim: 720ms;
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --dist: 3.25rem;
   /* ✅ BIGGER stage = bigger inner card - INCREASED HEIGHT */
-  --card-height: clamp(38rem, 70vh, 48rem);
+  --card-height: clamp(32rem, 55vh, 44rem);
   --max-width: 85rem; /* ✅ Increased to give more room for gap */
   --gap: 3rem; /* ✅ Increased from 2.5rem for more space between stage and shelf */
   --shelf-w: 22rem;
@@ -15,9 +25,12 @@
 }
 /* Page */
 .homePage {
-  min-height: calc(100vh - 80px);
-  padding: 2rem;
+  min-height: 100vh;
+  height: 100vh;
+  padding: 2rem; /* ✅ Equal padding on all sides, background shows under navbar */
+  padding-top: 6rem; /* ✅ But still push content down for navbar */
   box-sizing: border-box;
+  overflow: hidden; /* ✅ Prevent scrolling */
   background: linear-gradient(
     135deg,
     rgba(255, 20, 147, 0.28) 0%,
@@ -29,7 +42,6 @@
   );
   background-size: 400% 400%;
   animation: tiedyeGradient 15s ease infinite;
-  overflow-x: hidden; /* ✅ Prevent horizontal scroll */
 }
 @keyframes tiedyeGradient {
   0% {

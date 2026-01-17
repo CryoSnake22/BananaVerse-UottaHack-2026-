@@ -12,11 +12,11 @@ export default function Navbar() {
           left: 0;
           right: 0;
           z-index: 1000;
-          background: rgba(255, 255, 255, 0.8);
+          background: rgba(255, 255, 255, 0.5); /* ✅ More translucent - was 0.8 */
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-          border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+          border-bottom: 1px solid rgba(229, 231, 235, 0.3); /* ✅ Also made border more subtle */
         }
         .navbar-container {
           max-width: 1280px;
