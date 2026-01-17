@@ -1,10 +1,12 @@
 import ImageSelectionCard from "../components/ImageSelectionCard";
 import QuestionCard from "../components/QuestionCard";
+import PersonalInfoCard from "../components/PersonalInfoCard";
 import { useEffect, useMemo, useState } from "react";
 import "../css/PrototypeSurvey.css";
 import { useSearchParams } from "react-router-dom";
 
 const ANIM_MS = 720;
+const API_BASE_URL = "http://localhost:8000";
 
 function NewlyCreatedSurvey() {
   const [searchParams] = useSearchParams();
@@ -17,6 +19,10 @@ function NewlyCreatedSurvey() {
   const [dir, setDir] = useState("next");
   const [saved, setSaved] = useState([]);
   const [picked, setPicked] = useState(null);
+
+  // New states for API and image display
+  const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!surveyId) {
@@ -91,10 +97,88 @@ function NewlyCreatedSurvey() {
     }, ANIM_MS);
   };
 
+  // Extract score from image path (e.g., "/images/tree_3.png" -> 3)
+  const getScoreFromImagePath = (imagePath) => {
+    if (!imagePath) return null;
+    const match = imagePath.match(/(\d+)\.png$/);
+    return match ? parseInt(match[1]) : null;
+  };
+
+  // Handle submission to API - MUST BE BEFORE onNext
+  const handleSubmitWithData = async (savedData) => {
+    console.log("handleSubmitWithData called!");
+    setIsLoading(true);
+
+    try {
+      const surveyData = surveyQuestions.map((question, index) => {
+        const selectedImage = savedData[index];
+        const score = getScoreFromImagePath(selectedImage);
+        return {
+          category: question.category,
+          score: score || 1,
+        };
+      });
+
+      console.log("Sending survey data:", surveyData);
+
+      const response = await fetch(`${API_BASE_URL}/generate-landscape`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(surveyData),
+      });
+
+      if (!response.ok) {
+        let errorMessage = "Failed to generate landscape";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || JSON.stringify(errorData);
+        } catch (e) {
+          errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
+      }
+
+      const result = await response.json();
+      console.log("API response:", result);
+
+      const imageUrl = `${API_BASE_URL}/${result.final_image_path}`;
+      console.log("Generated image URL:", imageUrl);
+      setGeneratedImageUrl(imageUrl);
+    } catch (error) {
+      console.error("Error generating landscape:", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : typeof error === "string"
+            ? error
+            : JSON.stringify(error);
+      alert(`Error: ${errorMessage}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const onNext = () => {
+    console.log("onNext called, idx:", idx, "last:", last, "canNext:", canNext);
+
     if (!canNext) return;
+
+    if (idx === last) {
+      console.log("On last question, preparing to submit");
+      // On the last question, commit the answer first
+      const updatedSaved = saved.slice();
+      updatedSaved[idx] = picked;
+      setSaved(updatedSaved);
+
+      console.log("Calling handleSubmitWithData with:", updatedSaved);
+      // Then submit with the complete data
+      handleSubmitWithData(updatedSaved);
+      return;
+    }
+
     commit();
-    if (idx === last) return;
     go(idx + 1, "next");
   };
 
@@ -109,12 +193,53 @@ function NewlyCreatedSurvey() {
     setDir("next");
     setSaved(Array(total).fill(null));
     setPicked(null);
+    setGeneratedImageUrl(null);
   };
 
   if (error) return <div className="">{error}</div>;
 
   // Don't render until we have survey data
   if (!q) return <div>Loading...</div>;
+
+  // Show PersonalInfoCard if image is generated
+  if (generatedImageUrl) {
+    return <PersonalInfoCard backgroundImage={generatedImageUrl} />;
+  }
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        <div
+          style={{
+            width: "60px",
+            height: "60px",
+            border: "4px solid #f3f3f3",
+            borderTop: "4px solid #3498db",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite",
+          }}
+        ></div>
+        <h2>Generating your landscape...</h2>
+        <p>This may take a moment</p>
+        <style>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -175,7 +300,7 @@ function NewlyCreatedSurvey() {
                     disabled={!canNext}
                     title={!picked ? "Pick an image first" : ""}
                   >
-                    {idx === last ? "Save" : "OK"}
+                    {idx === last ? "Submit" : "OK"}
                   </button>
                 </div>
               </div>

@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from main import generate_asset_progression
 from survey_landscape import generate_survey_landscape
-from typing import List, Dict
+from typing import Any, List, Dict
 
 app = FastAPI()
 
@@ -45,7 +45,7 @@ def generate(thing: str = Query(...)):
 
 
 @app.post("/generate-landscape")
-def generate_landscape(survey_answers: List[Dict[str, int]] = Body(...)):
+def generate_landscape(survey_answers: List[Dict[str, Any]] = Body(...)):
     """
     Generate a composite landscape from survey answers.
 
