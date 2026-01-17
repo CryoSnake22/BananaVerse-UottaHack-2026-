@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -18,24 +19,20 @@ export default function Navbar() {
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
           border-bottom: 1px solid rgba(229, 231, 235, 0.5);
         }
-
         .navbar-container {
           max-width: 1280px;
           margin: 0 auto;
           padding: 1rem 1.5rem;
         }
-
         .navbar-content {
           display: flex;
           align-items: center;
           justify-content: space-between;
         }
-
         .team-name-container {
           display: flex;
           align-items: center;
         }
-
         .team-name {
           font-size: 2rem;
           font-weight: 500;
@@ -44,13 +41,11 @@ export default function Navbar() {
           color: #111827;
           margin: 0;
         }
-
         .nav-buttons {
           display: flex;
           align-items: center;
           gap: 0.75rem;
         }
-
         .nav-button {
           position: relative;
           padding: 0.5rem 1.25rem;
@@ -65,19 +60,16 @@ export default function Navbar() {
           text-decoration: none;
           transition: all 0.2s ease;
         }
-
         .nav-button:hover {
           background: rgba(255, 255, 255, 0.8);
           border-color: rgba(209, 213, 219, 0.6);
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
         }
-
         .button-content {
           display: flex;
           align-items: center;
           gap: 0.5rem;
         }
-
         .button-icon {
           width: 1.25rem;
           height: 1.25rem;
@@ -92,7 +84,8 @@ export default function Navbar() {
             </div>
 
             <div className="nav-buttons">
-              <a href="/" className="nav-button">
+              {/* Home */}
+              <Link to="/" className="nav-button">
                 <span className="button-content">
                   <svg
                     className="button-icon"
@@ -109,9 +102,10 @@ export default function Navbar() {
                   </svg>
                   Home
                 </span>
-              </a>
+              </Link>
 
-              <a href="/survey" className="nav-button">
+              {/* Survey */}
+              <Link to="/survey" className="nav-button">
                 <span className="button-content">
                   <svg
                     className="button-icon"
@@ -123,12 +117,32 @@ export default function Navbar() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      d="M9 17v-6h6v6m2 4H7a1 1 0 01-1-1V5a1 1 0 011-1h10a1 1 0 011 1v15a1 1 0 01-1 1z"
                     />
                   </svg>
                   Survey
                 </span>
-              </a>
+              </Link>
+
+              {/* Create Survey */}
+              <Link to="/create-survey" className="nav-button">
+                <span className="button-content">
+                  <svg
+                    className="button-icon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                  Create Survey
+                </span>
+              </Link>
             </div>
           </div>
         </div>
