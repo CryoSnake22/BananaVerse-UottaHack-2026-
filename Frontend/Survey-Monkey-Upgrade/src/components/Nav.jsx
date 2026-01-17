@@ -124,7 +124,7 @@ export default function Navbar() {
               </Link>
 
               {/* Create Survey */}
-              <Link to="/create-survey" className="nav-button">
+              <Link to="/createSurvey" className="nav-button">
                 <span className="button-content">
                   <svg
                     className="button-icon"

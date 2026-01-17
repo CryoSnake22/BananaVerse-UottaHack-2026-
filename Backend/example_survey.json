@@ -1,0 +1,22 @@
+[
+  {
+    "category": "dog",
+    "score": 1
+  },
+  {
+    "category": "sky",
+    "score": 5
+  },
+  {
+    "category": "tree",
+    "score": 2
+  },
+  {
+    "category": "flowers",
+    "score": 4
+  },
+  {
+    "category": "house",
+    "score": 3
+  }
+]
