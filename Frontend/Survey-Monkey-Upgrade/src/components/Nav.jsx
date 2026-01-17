@@ -116,7 +116,7 @@ export default function Navbar() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M9 17v-6h6v6m2 4H7a1 1 0 01-1-1V5a1 1 0 011-1h10a1 1 0 011 1v15a1 1 0 01-1 1z"
+                      d="M9 5h6m-7 4h8m-8 4h5m2-9V4a2 2 0 00-2-2h-2a2 2 0 00-2 2v1m10 0h-4m4 0v13a2 2 0 01-2 2H7a2 2 0 01-2-2V5h4"
                     />
                   </svg>
                   Survey

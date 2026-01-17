@@ -11,8 +11,8 @@
 }
 
 .image-selection-card {
-  width: 34rem;
-  max-width: min(92vw, 34rem);
+  width: 100%;
+  max-width: 100%;
 
   display: flex;
   flex-direction: column;
@@ -229,10 +229,6 @@
    ========================================================= */
 
 @media (max-width: 50rem) {
-  .image-selection-card {
-    width: min(92vw, 34rem);
-  }
-
   .image-options {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -247,4 +243,3 @@
 .img {
   min-height: clamp(5.5rem, 9vh, 6.5rem);
 }
-

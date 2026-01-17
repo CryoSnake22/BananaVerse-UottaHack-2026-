@@ -3,11 +3,11 @@
    Copy/paste over your QuestionCard.css
    =========================== */
 
-.question-card{
+.question-card {
   box-sizing: border-box;
 
   /* ✅ bigger card */
-  width: min(58rem, 100%);
+  width: min(58rem, 70%);
   margin: 0;
 
   /* ✅ fills the stage height now */
@@ -25,12 +25,12 @@
   background: rgba(255, 255, 250, 0.88);
 }
 
-.question-card *{
+.question-card * {
   box-sizing: border-box;
 }
 
 /* Prompt section */
-.avatar-card{
+.avatar-card {
   width: 100%;
   margin: 0;
   padding: 1.1rem 1.4rem;
@@ -46,20 +46,20 @@
     inset 0 0 0.08rem rgba(0, 0, 0, 0.08);
 }
 
-.avatar-card p{
+.avatar-card p {
   margin: 0;
   padding: 0;
 
-  font-size: 1.15rem;  
+  font-size: 1.15rem;
   color: rgba(30, 30, 34, 0.92);
   font-weight: 750;
   text-align: center;
 
-  max-width: 44ch; 
+  max-width: 44ch;
 }
 
 /* Image section */
-.image-section{
+.image-section {
   width: 100%;
   margin: 0;
   padding: 0;

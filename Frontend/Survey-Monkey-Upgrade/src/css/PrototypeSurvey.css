@@ -2,22 +2,17 @@
    Home.css (UPDATED FULL)
    Copy/paste over your Home.css
    =========================== */
-
 :root {
   --anim: 720ms;
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --dist: 3.25rem;
-
   /* ✅ BIGGER stage = bigger inner card - INCREASED HEIGHT */
   --card-height: clamp(38rem, 70vh, 48rem);
-
-  --max-width: 60rem;
-  --gap: 1.5rem;
-
+  --max-width: 85rem; /* ✅ Increased to give more room for gap */
+  --gap: 3rem; /* ✅ Increased from 2.5rem for more space between stage and shelf */
   --shelf-w: 22rem;
   --stage-w: 58rem; /* ✅ wider stage */
 }
-
 /* Page */
 .homePage {
   min-height: calc(100vh - 80px);
@@ -36,7 +31,6 @@
   animation: tiedyeGradient 15s ease infinite;
   overflow-x: hidden; /* ✅ Prevent horizontal scroll */
 }
-
 @keyframes tiedyeGradient {
   0% {
     background-position: 0% 50%;
@@ -48,7 +42,6 @@
     background-position: 0% 50%;
   }
 }
-
 .homeLayout {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -57,7 +50,6 @@
   gap: var(--gap);
   align-items: start;
 }
-
 /* LEFT */
 .surveyArea {
   width: 100%;
@@ -65,7 +57,6 @@
   flex-direction: column;
   align-items: center;
 }
-
 /* ✅ Stage viewport is the "window" */
 .stageViewport {
   height: var(--card-height);
@@ -73,11 +64,9 @@
   display: flex;
   align-items: stretch; /* ✅ allow child to fill height */
   justify-content: center;
-
   overflow: hidden;
   border-radius: 2rem;
 }
-
 /* ✅ The animated wrapper (your slide in/out) */
 .stageMotion {
   width: 100%;
@@ -85,21 +74,17 @@
   display: flex;
   justify-content: center;
   align-items: stretch; /* ✅ child fills height */
-
   will-change: transform, opacity, filter;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
-
 .stageViewport,
 .shelfPanel {
   box-sizing: border-box;
 }
-
 /* =========================
    Animations (unchanged)
    ========================= */
-
 /* NEXT */
 .stageMotion.leaving.next {
   animation: swipeDown var(--anim) var(--ease-smooth) forwards;
@@ -107,7 +92,6 @@
 .stageMotion.entering.next {
   animation: dropInFromTop var(--anim) var(--ease-smooth) forwards;
 }
-
 /* PREV */
 .stageMotion.leaving.prev {
   animation: swipeUp var(--anim) var(--ease-smooth) forwards;
@@ -115,7 +99,6 @@
 .stageMotion.entering.prev {
   animation: riseInFromBottom var(--anim) var(--ease-smooth) forwards;
 }
-
 @keyframes swipeDown {
   0% {
     transform: translateY(0);
@@ -128,7 +111,6 @@
     filter: blur(2px);
   }
 }
-
 @keyframes dropInFromTop {
   0% {
     transform: translateY(calc(-1 * var(--dist)));
@@ -141,7 +123,6 @@
     filter: blur(0px);
   }
 }
-
 @keyframes swipeUp {
   0% {
     transform: translateY(0);
@@ -154,7 +135,6 @@
     filter: blur(2px);
   }
 }
-
 @keyframes riseInFromBottom {
   0% {
     transform: translateY(var(--dist));
@@ -167,7 +147,6 @@
     filter: blur(0px);
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .stageMotion.leaving.next,
   .stageMotion.entering.next,
@@ -175,12 +154,10 @@
   .stageMotion.entering.prev {
     animation: none;
   }
-
   .homePage {
     animation: none;
   }
 }
-
 /* Actions */
 .actions {
   width: min(var(--stage-w), 100%);
@@ -189,7 +166,6 @@
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .actionsRow {
   width: 100%;
   display: flex;
@@ -198,12 +174,10 @@
   margin-top: 0rem;
   gap: 1rem;
 }
-
 .navGroup {
   display: flex;
   gap: 0.75rem;
 }
-
 /* Buttons */
 .btn {
   border: none;
@@ -223,7 +197,6 @@
   opacity: 0.55;
   cursor: not-allowed;
 }
-
 .btn.primary {
   background: rgba(25, 25, 30, 0.92);
   color: rgba(255, 255, 255, 0.92);
@@ -235,61 +208,50 @@
 .btn:hover {
   filter: brightness(1.06);
 }
-
 /* RIGHT: Shelf */
 .shelfPanel {
   height: var(--card-height);
   width: 100%;
-
   border-radius: 1.2rem;
   padding: 1rem;
-
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(20, 20, 24, 0.12);
   backdrop-filter: blur(10px);
-
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin-left: 10rem;
+  /* ✅ Removed margin-left: 10rem for better horizontal spacing */
 }
-
 .shelfHeader {
   padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(20, 20, 24, 0.1);
   margin-bottom: 0.9rem;
 }
-
 .shelfTitle {
   font-size: 1.05rem;
   font-weight: 700;
   color: rgba(20, 20, 24, 0.92);
 }
-
 .shelfMeta {
   margin-top: 0.25rem;
   font-size: 0.9rem;
   color: rgba(20, 20, 24, 0.62);
 }
-
 .shelfGrid {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
   padding-right: 0.25rem;
 }
-
 .shelfItem {
   border-radius: 1rem;
   border: 1px solid rgba(20, 20, 24, 0.12);
   background: rgba(255, 255, 255, 0.65);
   padding: 0.65rem;
 }
-
 .shelfItemTop {
   display: flex;
   align-items: baseline;
@@ -297,13 +259,11 @@
   gap: 0.5rem;
   margin-bottom: 0.5rem;
 }
-
 .shelfQ {
   font-size: 0.85rem;
   font-weight: 700;
   color: rgba(20, 20, 24, 0.85);
 }
-
 .shelfStatus {
   font-size: 0.78rem;
   color: rgba(20, 20, 24, 0.55);
@@ -311,27 +271,25 @@
 .shelfStatus.done {
   color: rgba(20, 20, 24, 0.78);
 }
-
 .shelfThumb {
   border-radius: 0.9rem;
   overflow: hidden;
   border: 1px solid rgba(20, 20, 24, 0.1);
   background: rgba(0, 0, 0, 0.06);
 }
-
 .shelfThumb img {
   width: 100%;
   height: 4.6rem;
   object-fit: cover;
   display: block;
 }
+
 .shelfThumbEmpty {
   height: 4.6rem;
   display: grid;
   place-items: center;
   color: rgba(20, 20, 24, 0.45);
 }
-
 /* Responsive */
 @media (max-width: 78rem) {
   :root {
@@ -339,7 +297,6 @@
     --stage-w: 56rem;
   }
 }
-
 @media (max-width: 62rem) {
   .homeLayout {
     grid-template-columns: 1fr;
@@ -347,14 +304,12 @@
   .shelfPanel {
     height: auto;
     overflow: visible;
-    margin-left: 0;
   }
   .shelfGrid {
     overflow: visible;
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-
 @media (max-width: 42rem) {
   .homePage {
     padding: 1.25rem;
@@ -363,16 +318,13 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-
 @media (max-width: 34rem) {
   :root {
     --card-height: clamp(36rem, 75vh, 50rem);
   }
-
   .shelfGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
   .actionsRow {
     flex-direction: column;
     align-items: stretch;
@@ -381,4 +333,3 @@
     justify-content: center;
   }
 }
-
