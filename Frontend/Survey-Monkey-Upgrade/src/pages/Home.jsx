@@ -1,6 +1,7 @@
 import QuestionCard from "../components/QuestionCard.jsx";
 import ImageSelectionCard from "../components/ImageSelectionCard.jsx";
-import "../css/HomeBanana.css";
+import { useState } from "react";
+import "../css/Home.css";
 
 // Placeholder component for the final landscape visualization
 const FinalLandscapePreview = () => {
@@ -18,6 +19,7 @@ const FinalLandscapePreview = () => {
 };
 
 const Home = () => {
+  const [picked, setPicked] = useState(null); // current question selection (not yet saved unless OK/Save)
   return (
     <div className="container">
       {/* Hero Section */}
@@ -40,7 +42,7 @@ const Home = () => {
             <h3>More Responses</h3>
             <p>Traditional forms are boring. Our gamified approach encourages frequent participation and higher completion rates.</p>
           </li>
-          <li style={{ opacity: 0.8}}>
+          <li style={{ opacity: 0.7}}>
             <h3>AI Insights*</h3>
             <p>Behind the scenes, AI analyzes user choices to understand sentiment and trends without slowing down engagement.</p>
             <p>COMMING SOON</p>
@@ -52,19 +54,21 @@ const Home = () => {
       <section>
         <h2 className="text-h2" style={{margin: "0rem"}}>See BananaVerse in Action</h2>
         <p className="text-p" style={{margin: "0rem"}}>Here's an example question users might see:</p>
-        <div style={{animation: "slideUpFade 1s ease-out forwards"}}>
-          <QuestionCard 
-            key={0}
-            question={"How would you describe overall experience?"}
+        <div style={{animation: "slideUpFade 1s ease-out forwards",  display: "flex", justifyContent: "center"}}>
+          <QuestionCard
+            question="How would you describe overall experience?"
             imageSelectionCard={
-                <ImageSelectionCard
-                img1="/images/Tree1.png"
-                img2="/images/Tree2.png"
-                img3="/images/Tree3.png"
-                img4="/images/Tree4.png"
-                img5="/images/Tree5.png"
-                />
-            }/>
+              <ImageSelectionCard
+                img1="/images/tree_1.png"
+                img2="/images/tree_2.png"
+                img3="/images/tree_3.png"
+                img4="/images/tree_4.png"
+                img5="/images/tree_5.png"
+                value={picked}
+                onSelectionChange={setPicked}
+              />
+            }
+          />
         </div>
       </section>
 
