@@ -1,26 +1,22 @@
 /* =========================================================
    Image Selection Card (Dark Container)
-   This is the main wrapper for the entire component.
    ========================================================= */
 
 .image-selection-card {
-  /* Roughly 1/3 of the page, but never too large */
-  width: min(34vw, 32rem);
-  max-width: 100%;
+  /* width: min(34vw, 32rem);
+  max-width: 100%; */
+  width: 34rem;               /* ← THIS sets the visual width */
+  max-width: min(92vw, 34rem);
 
-  /* Stack children vertically */
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  /* Dark background so images pop */
   background: rgba(18, 18, 22, 0.96);
 
-  /* Rounded card look */
   border-radius: 1.2rem;
   padding: 1rem;
 
-  /* Soft elevation + subtle inner border */
   box-shadow:
     0 1.2rem 2.6rem rgba(0, 0, 0, 0.55),
     inset 0 0 0.08rem rgba(255, 255, 255, 0.08);
@@ -28,158 +24,138 @@
 
 /* =========================================================
    Top Image Options Row
-   Holds the clickable thumbnail images.
    ========================================================= */
 
 .image-options {
   display: grid;
-
-  /* 5 images in a row */
   grid-template-columns: repeat(5, minmax(0, 1fr));
-
-  /* Space between thumbnails */
   gap: 0.7rem;
 }
 
 /* =========================================================
    Thumbnail Button
-   This wraps each small image and makes it clickable.
    ========================================================= */
 
 .img {
-  /* Remove default button spacing */
   padding: 0;
   line-height: 0;
 
-  /* Make thumbnails taller */
   min-height: 6.5rem;
 
-  /* Rounded corners and clipping */
   border-radius: 0.9rem;
   overflow: hidden;
 
   cursor: pointer;
 
-  /* Subtle border + dark glassy background */
   border: 0.08rem solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.05);
 
-  /* Smooth interaction animations */
   transition:
     transform 160ms ease,
     box-shadow 180ms ease,
     border-color 180ms ease;
 }
 
-/* The actual thumbnail image */
 .img img {
-  /* Fill the button */
   width: 100%;
   height: 100%;
-
-  /* Taller visual ratio for thumbnails */
   aspect-ratio: 4 / 3;
-
-  /* Crop slightly to keep thumbnails clean */
   object-fit: cover;
-
   display: block;
 }
 
-/* Lift thumbnail slightly on hover */
 .img:hover {
   transform: translateY(-0.12rem);
   box-shadow: 0 1rem 1.8rem rgba(0, 0, 0, 0.45);
   border-color: rgba(255, 255, 255, 0.26);
 }
 
-/* Highlight the selected thumbnail */
 .img.is-selected {
   border-color: rgba(178, 95, 216, 0.9);
   box-shadow: 0 1.1rem 2rem rgba(178, 95, 216, 0.35);
 }
 
 /* =========================================================
-   Selected Image Preview (Dropdown Section)
-   This expands when an image is selected.
+   Selected Image Preview (FIXED SIZE BLACK BOX)
+   - Prevents QuestionCard from growing/shrinking
+   - Forces the image to fit the box
    ========================================================= */
 
 .selected-image-display {
-  /* Rounded card inside the main card */
   border-radius: 1.1rem;
   overflow: hidden;
 
-  /* Soft border and dark backing */
   border: 0.08rem solid rgba(255, 255, 255, 0.12);
-  background: rgba(0, 0, 0, 0.25);
 
-  /* Hidden by default */
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(-0.35rem);
+  /* Fixed preview box size */
+  height: 16rem;                 /* adjust if needed */
+  width: 100%;
 
-  /* Smooth expand / collapse animation */
-  transition:
-    max-height 260ms ease,
-    opacity 220ms ease,
-    transform 220ms ease;
+  /* Black box background */
+  background: rgba(0, 0, 0, 0.92);
+
+  /* Ensure children can actually shrink/fill properly */
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
-/* Open state when an image is selected */
+/* Keep this class for your JSX toggle, but no layout change */
 .selected-image-display.is-open {
-  max-height: 26rem;
   opacity: 1;
-  transform: translateY(0);
 }
 
 /* =========================================================
    Preview Image Frame
-   Acts like a movie poster container.
+   - Fills the black box
    ========================================================= */
 
 .preview-inner {
-  /* Keeps the preview image in a stable shape */
-  position: relative;
-  width: 100%;
-
-  /* Same ratio as thumbnails, but larger */
-  aspect-ratio: 16 / 9;
-
-  /* Clip image nicely */
-  overflow: hidden;
-  border-radius: 1rem;
-}
-
-/* The large selected image */
-.preview-img {
-  /* Fill the preview frame */
   width: 100%;
   height: 100%;
+  display: flex;
+}
 
-  /* Show the whole image (no cropping) */
-  object-fit: contain;
-
+/* The large selected image:
+   IMPORTANT: make it fill the black box */
+.preview-img {
+  width: 100%;
+  height: 100%;
   display: block;
 
-  /* Dark backing so letterboxing looks intentional */
-  background: rgba(0, 0, 0, 0.35);
+  /* Fit nicely inside the box */
+  object-fit: contain;      /* shows whole image */
+  object-position: center;
+
+  /* Keep black letterbox clean */
+  background: rgba(0, 0, 0, 0.92);
 }
 
 /* =========================================================
-   Placeholder Text (when nothing is selected)
+   Placeholder (when nothing is selected)
+   - Still takes full box space
    ========================================================= */
 
 .preview-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   padding: 1rem;
-  color: rgba(255, 255, 255, 0.7);
   text-align: center;
+
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.3;
 }
 
 /* =========================================================
    Responsive Adjustments
    ========================================================= */
 
-/* Tablet / small desktop */
 @media (max-width: 50rem) {
   .image-selection-card {
     width: min(92vw, 34rem);
@@ -190,13 +166,21 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 28rem) {
   .image-options {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .selected-image-display.is-open {
-    max-height: 22rem;
+  .selected-image-display {
+    height: 14rem;
   }
 }
+
+/* ImageSelectionCard.css */
+.selected-image-display{
+  height: clamp(13.5rem, 22vh, 16rem);
+}
+.img{
+  min-height: clamp(5.5rem, 9vh, 6.5rem);
+}
+

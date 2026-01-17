@@ -1,80 +1,140 @@
-.home {
-    display: flex;
-    flex-direction: flex-start;
-    padding-left: 10%;
+/* Home.css
+   Same behavior + vibe:
+   - stageViewport has fixed "card height"
+   - actions sit under stageViewport
+   - shelfPanel is same height as stageViewport and aligned horizontally
+*/
+
+:root{
+  --anim: 720ms;
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --dist: 3.25rem;
+
+  /* one truth for visible QuestionCard area */
+  --card-height: clamp(30rem, 62vh, 38rem);
+
+  --max-width: 86rem;
+  --gap: 1.5rem;
+
+  --shelf-w: 22rem;
+  --stage-w: 52rem;
 }
 
-.survey {
+/* Page */
+.homePage{
   min-height: 100vh;
-  display: grid;
-  place-items: center;
   padding: 2rem;
- 
+  box-sizing: border-box;
 }
 
-/* animation wrapper */
-.survey-stage {
+.homeLayout{
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--shelf-w);
+  gap: var(--gap);
+  align-items: start; /* shelf aligns with top of stage */
+}
+
+/* LEFT: stage + actions */
+.surveyArea{
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  will-change: transform, opacity;
-}
-
-/* NEXT direction: current swipes DOWN, next comes from TOP */
-.survey-stage.leaving.next {
-  animation: swipeDown 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-.survey-stage.entering.next {
-  animation: dropInFromTop 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* PREV direction: current swipes UP, previous comes from BOTTOM */
-.survey-stage.leaving.prev {
-  animation: swipeUp 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-.survey-stage.entering.prev {
-  animation: riseInFromBottom 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Keep opacity higher for longer so you can see the motion */
-@keyframes swipeDown {
-  0%   { transform: translateY(0);     opacity: 1; }
-  70%  { transform: translateY(1.6rem); opacity: 0.95; }
-  100% { transform: translateY(2.6rem); opacity: 0; }
-}
-
-@keyframes dropInFromTop {
-  0%   { transform: translateY(-2.6rem); opacity: 0; }
-  40%  { opacity: 1; }
-  100% { transform: translateY(0);       opacity: 1; }
-}
-
-@keyframes swipeUp {
-  0%   { transform: translateY(0);      opacity: 1; }
-  70%  { transform: translateY(-1.6rem); opacity: 0.95; }
-  100% { transform: translateY(-2.6rem); opacity: 0; }
-}
-
-@keyframes riseInFromBottom {
-  0%   { transform: translateY(2.6rem); opacity: 0; }
-  40%  { opacity: 1; }
-  100% { transform: translateY(0);      opacity: 1; }
-}
-
-/* Buttons row */
-.survey-actions {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+
+.stageViewport{
+  height: var(--card-height);
+  width: min(var(--stage-w), 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* overflow: hidden; */
+}
+
+.stageMotion{
+  width: fit-content;     /* exactly wraps QuestionCard */
+  height: fit-content;
+  max-width: 100%;
+
+  will-change: transform, opacity, filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.stageViewport,
+.shelfPanel{
+  box-sizing: border-box;
+}
+
+/* Animations */
+.stageMotion.leaving.next{ animation: swipeDown var(--anim) var(--ease-smooth) forwards; }
+.stageMotion.entering.next{ animation: dropInFromTop var(--anim) var(--ease-smooth) forwards; }
+
+.stageMotion.leaving.prev{ animation: swipeUp var(--anim) var(--ease-smooth) forwards; }
+.stageMotion.entering.prev{ animation: riseInFromBottom var(--anim) var(--ease-smooth) forwards; }
+
+@keyframes swipeDown{
+  0%{ transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+  60%{ opacity: 0.92; }
+  100%{ transform: translateY(var(--dist)) scale(0.99); opacity: 0; filter: blur(2px); }
+}
+@keyframes dropInFromTop{
+  0%{ transform: translateY(calc(-1 * var(--dist))) scale(0.99); opacity: 0; filter: blur(2px); }
+  55%{ opacity: 1; }
+  100%{ transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+}
+@keyframes swipeUp{
+  0%{ transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+  60%{ opacity: 0.92; }
+  100%{ transform: translateY(calc(-1 * var(--dist))) scale(0.99); opacity: 0; filter: blur(2px); }
+}
+@keyframes riseInFromBottom{
+  0%{ transform: translateY(var(--dist)) scale(0.99); opacity: 0; filter: blur(2px); }
+  55%{ opacity: 1; }
+  100%{ transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .stageMotion.leaving.next,
+  .stageMotion.entering.next,
+  .stageMotion.leaving.prev,
+  .stageMotion.entering.prev{
+    animation: none;
+  }
+}
+
+/* Actions sit UNDER the card height */
+.actions{
+  width: min(var(--stage-w), 100%);
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.progress{
+  font-size: 0.95rem;
+  color: rgba(20, 20, 24, 0.6);
+}
+
+.actionsRow{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
   gap: 1rem;
 }
 
-.nav-buttons {
+.navGroup{
   display: flex;
   gap: 0.75rem;
 }
 
-.btn {
+/* Buttons */
+.btn{
   border: none;
   border-radius: 0.9rem;
   padding: 0.85rem 1.1rem;
@@ -82,101 +142,139 @@
   cursor: pointer;
   transition: transform 160ms ease, filter 160ms ease, opacity 160ms ease;
 }
+.btn:active{ transform: translateY(0.08rem); }
+.btn:disabled{ opacity: 0.55; cursor: not-allowed; }
 
-.btn:active {
-  transform: translateY(0.08rem);
-}
-
-.btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.btn.primary {
+.btn.primary{
   background: rgba(25, 25, 30, 0.92);
   color: rgba(255, 255, 255, 0.92);
 }
-
-.btn.secondary {
+.btn.secondary{
   background: rgba(255, 255, 255, 0.78);
   color: rgba(20, 20, 24, 0.92);
 }
+.btn:hover{ filter: brightness(1.06); }
 
-.btn.ghost {
-  background: transparent;
-  color: rgba(20, 20, 24, 0.7);
+/* RIGHT: Shelf equals stage height */
+.shelfPanel{
+  height: var(--card-height);
+  width: 100%;
+
+  border-radius: 1.2rem;
+  padding: 1rem;
+
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(20, 20, 24, 0.12);
+  box-shadow: 0 1.2rem 2.6rem rgba(0, 0, 0, 0.10);
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* internal scroll */
 }
 
-.btn:hover {
-  filter: brightness(1.06);
+.shelfHeader{
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(20, 20, 24, 0.10);
+  margin-bottom: 0.9rem;
 }
 
-/* Small progress text */
-.progress {
-  font-size: 0.95rem;
-  color: rgba(20, 20, 24, 0.6);
+.shelfTitle{
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: rgba(20, 20, 24, 0.92);
 }
 
-
-:root {
-  --anim: 720ms;
-  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1); /* super smooth */
-  --dist: 3.25rem;
+.shelfMeta{
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: rgba(20, 20, 24, 0.62);
 }
 
-/* wrapper */
-.survey-stage {
-  will-change: transform, opacity, filter;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+.shelfGrid{
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  padding-right: 0.25rem;
 }
 
-/* NEXT */
-.survey-stage.leaving.next {
-  animation: swipeDown var(--anim) var(--ease-smooth) forwards;
-}
-.survey-stage.entering.next {
-  animation: dropInFromTop var(--anim) var(--ease-smooth) forwards;
-}
-
-/* PREV */
-.survey-stage.leaving.prev {
-  animation: swipeUp var(--anim) var(--ease-smooth) forwards;
-}
-.survey-stage.entering.prev {
-  animation: riseInFromBottom var(--anim) var(--ease-smooth) forwards;
+.shelfItem{
+  border-radius: 1rem;
+  border: 1px solid rgba(20, 20, 24, 0.12);
+  background: rgba(255, 255, 255, 0.65);
+  padding: 0.65rem;
 }
 
-@keyframes swipeDown {
-  0%   { transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
-  60%  { opacity: 0.92; }
-  100% { transform: translateY(var(--dist)) scale(0.99); opacity: 0; filter: blur(2px); }
+.shelfItemTop{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-@keyframes dropInFromTop {
-  0%   { transform: translateY(calc(-1 * var(--dist))) scale(0.99); opacity: 0; filter: blur(2px); }
-  55%  { opacity: 1; }
-  100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+.shelfQ{
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(20, 20, 24, 0.85);
 }
 
-@keyframes swipeUp {
-  0%   { transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
-  60%  { opacity: 0.92; }
-  100% { transform: translateY(calc(-1 * var(--dist))) scale(0.99); opacity: 0; filter: blur(2px); }
+.shelfStatus{
+  font-size: 0.78rem;
+  color: rgba(20, 20, 24, 0.55);
+}
+.shelfStatus.done{ color: rgba(20, 20, 24, 0.78); }
+
+.shelfThumb{
+  border-radius: 0.9rem;
+  overflow: hidden;
+  border: 1px solid rgba(20, 20, 24, 0.10);
+  background: rgba(0, 0, 0, 0.06);
 }
 
-@keyframes riseInFromBottom {
-  0%   { transform: translateY(var(--dist)) scale(0.99); opacity: 0; filter: blur(2px); }
-  55%  { opacity: 1; }
-  100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+.shelfThumb img{
+  width: 100%;
+  height: 4.6rem;
+  object-fit: cover;
+  display: block;
 }
 
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .survey-stage.leaving.next,
-  .survey-stage.entering.next,
-  .survey-stage.leaving.prev,
-  .survey-stage.entering.prev {
-    animation: none;
+.shelfThumbEmpty{
+  height: 4.6rem;
+  display: grid;
+  place-items: center;
+  color: rgba(20, 20, 24, 0.45);
+}
+
+/* Responsive */
+@media (max-width: 78rem){
+  :root{ --shelf-w: 20rem; --stage-w: 50rem; }
+}
+
+@media (max-width: 62rem){
+  .homeLayout{ grid-template-columns: 1fr; }
+  .shelfPanel{ height: auto; overflow: visible; }
+  .shelfGrid{ overflow: visible; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 42rem){
+  .homePage{ padding: 1.25rem; }
+  .shelfGrid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 34rem){
+  :root{ --card-height: clamp(28rem, 60vh, 36rem); }
+
+  .shelfGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .actionsRow{
+    flex-direction: column;
+    align-items: stretch;
   }
+  .navGroup{ justify-content: center; }
 }

@@ -1,76 +1,90 @@
 /* =========================================
    Question Card – tight, centered container
+   Height-safe (won’t blow up stage height)
    ========================================= */
 
 .question-card {
-  /* Card hugs the ImageSelectionCard width */
-  width: fit-content;
-  max-width: 100%;
+  box-sizing: border-box;
 
-  margin: 2rem auto;
+  /* width: fit-content; */
+  width: min(52rem, 100%);   
+  max-width: 100%;
+  margin: 0;
 
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  /* Even padding around everything */
   padding: 1.25rem;
-
   border-radius: 1.6rem;
 
-  /* Soft, warm background */
   background: rgba(255, 255, 250, 0.88);
 
+  /* shadows are fine, but keep them lightweight */
   box-shadow:
-    0 1.4rem 3rem rgba(0, 0, 0, 0.12),
+    0 1.2rem 2.4rem rgba(0, 0, 0, 0.10),
     inset 0 0 0.08rem rgba(0, 0, 0, 0.06);
+
+  /* IMPORTANT: prevents card from exceeding the stage height */
+  max-height: 100%;
+}
+
+/* If QuestionCard is placed inside a fixed-height stageViewport,
+   this ensures the card doesn't expand the layout unexpectedly */
+.question-card * {
+  box-sizing: border-box;
 }
 
 /* =========================================
-   Question / Prompt section
-   Matches ImageSelectionCard width
+   Prompt section (stable height)
    ========================================= */
 
 .avatar-card {
-  /* Match child card width */
+  box-sizing: border-box;
   width: 100%;
-
+  margin: 0;            /* avoid margin collapse */
   padding: 0.9rem 1.2rem;
   border-radius: 1.2rem;
 
   display: flex;
   justify-content: center;
+  align-items: center;
 
   background: rgba(255, 255, 255, 0.92);
-
   box-shadow:
-    0 0.8rem 1.6rem rgba(0, 0, 0, 0.08),
+    0 0.7rem 1.3rem rgba(0, 0, 0, 0.07),
     inset 0 0 0.08rem rgba(0, 0, 0, 0.08);
-
- 
-
-
 }
 
-/* Question text */
+/* Remove default <p> margins (these often cause height weirdness) */
 .avatar-card p {
   margin: 0;
+  padding: 0;
+
   font-size: 1.05rem;
   line-height: 1.45;
   color: rgba(30, 30, 34, 0.92);
-  font-weight: bold;
+  font-weight: 700;
+  text-align: center;
+
+  /* If long questions happen, prevent huge height jumps */
+  max-width: 32ch;
 }
 
 /* =========================================
    Image section
-   Just a slot that centers ImageSelectionCard
    ========================================= */
 
 .image-section {
+  box-sizing: border-box;
   width: 100%;
+  margin: 0;
+  padding: 0;
 
   display: flex;
   justify-content: center;
+  align-items: center;
 
-  /* No extra padding here — let the outer card handle spacing */
+  /* Key: don’t let internal content push layout outside container */
+  min-height: 0;
 }
