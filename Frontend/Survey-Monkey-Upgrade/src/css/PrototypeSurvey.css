@@ -11,8 +11,6 @@
   /* ✅ BIGGER stage = bigger inner card */
   --card-height: clamp(32rem, 62vh, 41rem);
 
-
-
   --max-width: 60rem;
   --gap: 1.5rem;
 
@@ -25,6 +23,21 @@
   min-height: 100vh;
   padding: 2rem;
   box-sizing: border-box;
+  background: linear-gradient(135deg, 
+    rgba(255, 20, 147, 0.28) 0%,
+    rgba(138, 43, 226, 0.25) 20%,
+    rgba(0, 191, 255, 0.28) 40%,
+    rgba(50, 205, 50, 0.25) 60%,
+    rgba(255, 215, 0, 0.28) 80%,
+    rgba(255, 69, 0, 0.25) 100%);
+  background-size: 400% 400%;
+  animation: tiedyeGradient 15s ease infinite;
+}
+
+@keyframes tiedyeGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .homeLayout{
@@ -44,7 +57,7 @@
   align-items: center;
 }
 
-/* ✅ Stage viewport is the “window” */
+/* ✅ Stage viewport is the "window" */
 .stageViewport{
   height: var(--card-height);
   width: min(var(--stage-w), 100%);
@@ -120,6 +133,10 @@
   .stageMotion.entering.next,
   .stageMotion.leaving.prev,
   .stageMotion.entering.prev{
+    animation: none;
+  }
+  
+  .homePage{
     animation: none;
   }
 }

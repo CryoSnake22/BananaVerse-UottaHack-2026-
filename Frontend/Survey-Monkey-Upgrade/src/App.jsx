@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import PrototypeServey from "./pages/PrototypeServey";
+import PrototypeSurvey from "./pages/PrototypeSurvey";
 import SurveyCreation from "./pages/SurveyCreation";
 import Home from "./pages/Home";
 import Nav from "./components/Nav";
@@ -13,7 +13,7 @@ function App() {
       <main className="main-content" style={{ paddingTop: "80px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/prototypeSurvey" element={<PrototypeServey />} />
+          <Route path="/prototypeSurvey" element={<PrototypeSurvey />} />
           <Route path="/createSurvey" element={<SurveyCreation />} />
           <Route path="/newlyCreatedSurvey" element={<NewlyCreatedSurvey />} />
 

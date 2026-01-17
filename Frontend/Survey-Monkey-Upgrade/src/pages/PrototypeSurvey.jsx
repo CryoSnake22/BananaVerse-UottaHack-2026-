@@ -1,7 +1,7 @@
 import ImageSelectionCard from "../components/ImageSelectionCard";
 import QuestionCard from "../components/QuestionCard";
 import { useEffect, useMemo, useState } from "react";
-import "../css/Home.css";
+import "../css/PrototypeSurvey.css";
 
 const SURVEY_QUESTIONS = [
   {

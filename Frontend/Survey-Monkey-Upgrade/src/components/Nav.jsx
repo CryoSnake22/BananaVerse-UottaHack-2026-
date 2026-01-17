@@ -79,7 +79,7 @@ export default function Navbar() {
         <div className="navbar-container">
           <div className="navbar-content">
             <div className="team-name-container">
-              <h1 className="team-name">BananaScape</h1>
+              <h1 className="team-name">BananaVerse</h1>
             </div>
 
             <div className="nav-buttons">
