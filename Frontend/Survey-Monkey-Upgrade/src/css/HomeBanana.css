@@ -1,0 +1,169 @@
+/* HomePage.css */
+
+/* General container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 2rem;
+  font-family: 'Poppins';
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Hero Section */
+section.text-center h1 {
+  color: #d97706; /* yellow-700 */
+  font-size: 2.5rem;
+  margin-bottom: 0rem;
+  text-align: center;
+  animation: slideUpFade 1s ease-out forwards;
+}
+
+section.text-center p {
+  font-size: 1.125rem;
+  color: #4b5563; /* gray-700 */
+  animation: slideUpFade 1s ease-out forwards;
+  margin-bottom: 0rem;
+}
+
+/* Why Use BananaVerse Section */
+ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  animation: slideUpFade 1s ease-out forwards;
+}
+
+@media (min-width: 768px) {
+  ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+ul li {
+  background-color: #fef3c7; /* yellow-50 */
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+ul li h3 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #b45309; /* yellow-600 */
+}
+
+/* Example Question Section */
+section.text-center .QuestionCard {
+  margin: 0 auto;
+}
+
+/* Final Landscape Preview */
+/* Remove the old dotted border from the container */
+.FinalLandscapePreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 80%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* New dashed border applied to the wrapper */
+.dashed-border {
+  display: block; /* shrink to fit image */
+  border: 4px dashed #fbbf24; /* yellow-400 */
+  border-radius: 1rem;
+  padding: 4px; /* optional: small padding around image */
+  background-color: #fde68a; /* optional: highlight background */
+  max-width: 70%;
+  margin: 0 auto;
+}
+
+/* Image inside wrapper */
+.dashed-border img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  object-fit: contain;
+}
+
+/* Call to Action */
+section.text-center {
+  text-align: center;
+}
+
+section.text-center a {
+  background-color: #ca8a04; /* yellow-600 */
+  color: #fff;
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+section.text-center a:hover {
+  background-color: #b45309; /* yellow-700 */
+}
+
+/* Responsive typography */
+@media (min-width: 768px) {
+  section.text-center h1 {
+    font-size: 3rem;
+  }
+
+  section.text-center h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Animated page title */
+.page-title {
+  color: #d97706; /* yellow-700 */
+  font-size: 2.5rem;
+  font-weight: bold;
+  opacity: 0; /* start invisible */
+  transform: translateY(40px); /* start below */
+  animation: slideUpFade 1s ease-out forwards;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.text-p {
+  font-size: 1.125rem;
+  color: #4b5563; /* gray-700 */
+  animation: slideUpFade 1s ease-out forwards;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.text-h2 {
+    font-size: 2rem;
+    animation: slideUpFade 1s ease-out forwards;
+    margin-bottom: 0;
+}
+
+.text-h3 {
+    font-size: 1.5rem;
+    animation: slideUpFade 1s ease-out forwards;
+    margin-bottom: 0;
+}
+
+/* Keyframes for "coming up" effect */
+@keyframes slideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
