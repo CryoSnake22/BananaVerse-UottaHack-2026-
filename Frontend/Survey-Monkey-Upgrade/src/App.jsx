@@ -10,13 +10,12 @@ function App() {
   return (
     <>
       <Nav />
-      <main className="main-content" style={{ paddingTop: "80px" }}>
+      <main className="main-content" style={{ paddingTop: "0px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/prototypeSurvey" element={<PrototypeSurvey />} />
           <Route path="/createSurvey" element={<SurveyCreation />} />
           <Route path="/newlyCreatedSurvey" element={<NewlyCreatedSurvey />} />
-
         </Routes>
       </main>
     </>

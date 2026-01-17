@@ -3,13 +3,11 @@
    Copy/paste over your Home.css
    =========================== */
 
-/* Prevent any scrolling at root level */
-html,
-body {
-  overflow: hidden;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+/* Handle main content wrapper */
+.main-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
 }
 
 :root {
@@ -17,7 +15,7 @@ body {
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --dist: 3.25rem;
   /* ✅ BIGGER stage = bigger inner card - INCREASED HEIGHT */
-  --card-height: clamp(32rem, 55vh, 44rem);
+  --card-height: clamp(34rem, 62vh, 46rem);
   --max-width: 85rem; /* ✅ Increased to give more room for gap */
   --gap: 3rem; /* ✅ Increased from 2.5rem for more space between stage and shelf */
   --shelf-w: 22rem;
@@ -25,12 +23,14 @@ body {
 }
 /* Page */
 .homePage {
+  position: relative;
   min-height: 100vh;
   height: 100vh;
-  padding: 2rem; /* ✅ Equal padding on all sides, background shows under navbar */
-  padding-top: 6rem; /* ✅ But still push content down for navbar */
+  margin: 0;
+  padding: 2rem;
+  padding-top: 10rem; /* ✅ Back to 6rem since main padding is now 0 */
   box-sizing: border-box;
-  overflow: hidden; /* ✅ Prevent scrolling */
+  overflow: hidden;
   background: linear-gradient(
     135deg,
     rgba(255, 20, 147, 0.28) 0%,
