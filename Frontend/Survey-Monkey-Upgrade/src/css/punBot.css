@@ -1,0 +1,31 @@
+.aiPanel {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.aiCharacter {
+  position: relative;
+  text-align: center;
+}
+
+.aiCharacter img {
+  width: 120px;
+  border-radius: 50%;
+}
+
+.aiBubble {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 160px;
+  padding: 0.5rem 1rem;
+  background-color: #ffeaa7;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  font-size: 0.85rem;
+  text-align: center;
+}

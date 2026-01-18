@@ -6,6 +6,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from main import generate_asset_progression
 from survey_landscape import generate_survey_landscape
 from typing import Any, List, Dict
+from pydantic import BaseModel
+import requests
+from google import genai
+
+# Load your GEMINI_API_KEY from environment
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 app = FastAPI()
 
@@ -85,6 +92,42 @@ def generate_landscape(survey_answers: List[Dict[str, Any]] = Body(...)):
         "element_count": len(result["element_prompts"]),
         "message": "Landscape generation complete",
     }
+
+class PunRequest(BaseModel):
+    question: str
+    theme: str
+
+@app.post("/generate-pun")
+def generate_pun(req: PunRequest):
+    if not req.question or not req.theme:
+        raise HTTPException(status_code=400, detail="Missing question or theme")
+    try:
+        prompt = f"""
+        You are a creative assistant that generates short, clever puns for survey questions.
+        Rules:
+        - Rewrite the question as a light, playful pun inspired by the theme
+        - Preserve the original meaning
+        - Output only one sentence
+        - Survey-appropriate tone
+        - Avoid sarcasm or negativity
+
+        Survey Question: "{req.question}"
+        Theme: "{req.theme}"
+
+        Generate a pun-based survey question (1 sentence).
+        """
+        response = client.models.generate_content(
+        model="gemini-3-flash-preview",
+        contents=prompt
+        )
+
+        pun_text = response.text
+        print(pun_text)
+        return {"pun": pun_text}
+
+    except Exception as e:
+        print("Gemini API error:", e)
+        raise HTTPException(status_code=500, detail="Failed to generate pun")
 
 
 if __name__ == "__main__":
