@@ -319,12 +319,16 @@ export default function CreateSurvey() {
           gap: 1rem;
           flex-wrap: wrap;
         }
+
+        .input-group input {
+            border: 2px solid rgba(172, 177, 185, 0.8);
+        }
         
         .text-input {
           flex: 1;
           min-width: 250px;
           padding: 0.85rem 1.1rem;
-          border: 2px solid rgba(209, 213, 219, 0.8);
+          border: 2px solid rgba(172, 177, 185, 0.8);
           border-radius: 0.9rem;
           font-size: 1rem;
           background: white;
@@ -671,7 +675,7 @@ export default function CreateSurvey() {
 
       <div className="create-survey-page">
         <div className="page-header">
-          <h1 className="page-title">Create Survey</h1>
+          <h1 className="page-title">Create a Survey</h1>
           <p className="page-subtitle">
             Build your custom survey with themed questions
           </p>

@@ -37,72 +37,7 @@ const SURVEY_QUESTIONS = [
       "/images/house_5.png",
     ],
   },
-  {
-    id: 4,
-    text: "How was your overall experience?",
-    images: [
-      "/images/monkey_1.png",
-      "/images/monkey_2.png",
-      "/images/monkey_3.png",
-      "/images/monkey_4.png",
-      "/images/monkey_5.png",
-    ],
-  },
-  {
-    id: 5,
-    text: "How likely are you to recommend us?",
-    images: [
-      "/images/oasis_1.png",
-      "/images/oasis_2.png",
-      "/images/oasis_3.png",
-      "/images/oasis_4.png",
-      "/images/oasis_5.png",
-    ],
-  },
-  {
-    id: 6,
-    text: "How was the speed of service?",
-    images: [
-      "/images/weather_1.png",
-      "/images/weather_2.png",
-      "/images/weather_3.png",
-      "/images/weather_4.png",
-      "/images/weather_5.png",
-    ],
-  },
-  {
-    id: 7,
-    text: "How was your overall experience?",
-    images: [
-      "/images/wolf_1.png",
-      "/images/wolf_2.png",
-      "/images/wolf_3.png",
-      "/images/wolf_4.png",
-      "/images/wolf_5.png",
-    ],
-  },
-  {
-    id: 8,
-    text: "How likely are you to recommend us?",
-    images: [
-      "/images/grass_1.png",
-      "/images/grass_2.png",
-      "/images/grass_3.png",
-      "/images/grass_4.png",
-      "/images/grass_5.png",
-    ],
-  },
-  {
-    id: 9,
-    text: "How was the speed of service?",
-    images: [
-      "/images/cacti_1.png",
-      "/images/cacti_2.png",
-      "/images/cacti_3.png",
-      "/images/cacti_4.png",
-      "/images/cacti_5.png",
-    ],
-  },
+  
 ];
 
 const ANIM_MS = 720;
@@ -118,7 +53,6 @@ export default function Home() {
   const [saved, setSaved] = useState(() => Array(total).fill(null));
   const [picked, setPicked] = useState(null);
 
-  // ✅ Modal gate (starts locked)
   const [hasAcknowledged, setHasAcknowledged] = useState(false);
 
   const q = SURVEY_QUESTIONS[idx];
