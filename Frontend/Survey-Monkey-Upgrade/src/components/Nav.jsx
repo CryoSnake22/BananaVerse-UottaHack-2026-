@@ -119,7 +119,7 @@ export default function Navbar() {
                       d="M9 5h6m-7 4h8m-8 4h5m2-9V4a2 2 0 00-2-2h-2a2 2 0 00-2 2v1m10 0h-4m4 0v13a2 2 0 01-2 2H7a2 2 0 01-2-2V5h4"
                     />
                   </svg>
-                  Survey
+                  Prototype Survey
                 </span>
               </Link>
 

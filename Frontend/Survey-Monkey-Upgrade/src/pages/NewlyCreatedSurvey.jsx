@@ -11,14 +11,18 @@ const API_BASE_URL = "http://localhost:8000";
 function NewlyCreatedSurvey() {
   const [searchParams] = useSearchParams();
   const surveyId = searchParams.get("id");
+
   const [surveyTitle, setSurveyTitle] = useState("");
   const [surveyQuestions, setSurveyQuestions] = useState([]);
   const [error, setError] = useState("");
+
   const [idx, setIdx] = useState(0);
   const [phase, setPhase] = useState("idle");
   const [dir, setDir] = useState("next");
   const [saved, setSaved] = useState([]);
   const [picked, setPicked] = useState(null);
+
+  const [hasAcknowledged, setHasAcknowledged] = useState(false);
 
   // New states for API and image display
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
@@ -40,14 +44,11 @@ function NewlyCreatedSurvey() {
     try {
       const parsed = JSON.parse(raw);
 
-      // Handle both old format (array) and new format (object with title and questions)
       if (Array.isArray(parsed)) {
-        // Old format - just questions array
         setSurveyQuestions(parsed);
         setSurveyTitle("Untitled Survey");
         setSaved(Array(parsed.length).fill(null));
       } else {
-        // New format - object with title and questions
         setSurveyTitle(parsed.title || "Untitled Survey");
         setSurveyQuestions(parsed.questions || []);
         setSaved(Array((parsed.questions || []).length).fill(null));
@@ -69,6 +70,16 @@ function NewlyCreatedSurvey() {
       setPicked(saved[idx] ?? null);
     }
   }, [idx, saved]);
+
+  useEffect(() => {
+    if (!hasAcknowledged) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [hasAcknowledged]);
 
   const busy = phase !== "idle";
   const canPrev = idx > 0 && !busy;
@@ -97,14 +108,12 @@ function NewlyCreatedSurvey() {
     }, ANIM_MS);
   };
 
-  // Extract score from image path (e.g., "/images/tree_3.png" -> 3)
   const getScoreFromImagePath = (imagePath) => {
     if (!imagePath) return null;
     const match = imagePath.match(/(\d+)\.png$/);
     return match ? parseInt(match[1]) : null;
   };
 
-  // Handle submission to API - MUST BE BEFORE onNext
   const handleSubmitWithData = async (savedData) => {
     console.log("handleSubmitWithData called!");
     setIsLoading(true);
@@ -167,13 +176,11 @@ function NewlyCreatedSurvey() {
 
     if (idx === last) {
       console.log("On last question, preparing to submit");
-      // On the last question, commit the answer first
       const updatedSaved = saved.slice();
       updatedSaved[idx] = picked;
       setSaved(updatedSaved);
 
       console.log("Calling handleSubmitWithData with:", updatedSaved);
-      // Then submit with the complete data
       handleSubmitWithData(updatedSaved);
       return;
     }
@@ -198,15 +205,12 @@ function NewlyCreatedSurvey() {
 
   if (error) return <div className="">{error}</div>;
 
-  // Don't render until we have survey data
   if (!q) return <div>Loading...</div>;
 
-  // Show PersonalInfoCard if image is generated
   if (generatedImageUrl) {
     return <PersonalInfoCard backgroundImage={generatedImageUrl} />;
   }
 
-  // Show loading state
   if (isLoading) {
     return (
       <div
@@ -242,11 +246,47 @@ function NewlyCreatedSurvey() {
   }
 
   return (
-    <>
-      <style>{`
-      `}</style>
+    <div className={`homePage ${!hasAcknowledged ? "is-locked" : ""}`}>
+      {!hasAcknowledged && (
+        <div
+          className="gateOverlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="gateTitle"
+        >
+          <div className="gateModal">
+            <div className="gateBadge">Before you start</div>
 
-      <div className="homePage">
+            <h2 id="gateTitle" className="gateTitle">
+              Welcome to a survey in the BananaVerse!🍌
+            </h2>
+
+            <p className="gateText">
+              Give us a PICTURE of your experience by choosing elements that
+              shape your very own AI-generated BananaScape Landscape.
+            </p>
+
+            <ul className="gateList">
+              <li>Pick the image the feels right per question</li>
+              <li>Go back and change your landscape elements</li>
+              <li>Your “Landscape Shelf” fills as you go</li>
+            </ul>
+
+            <div className="gateActions">
+              <button
+                className="btn primary gateBtn"
+                type="button"
+                onClick={() => setHasAcknowledged(true)}
+                autoFocus
+              >
+                I understand
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="pageContent">
         <div className="survey-title-header">
           <h1 className="survey-title">{surveyTitle}</h1>
         </div>
@@ -342,7 +382,7 @@ function NewlyCreatedSurvey() {
           </aside>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

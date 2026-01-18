@@ -349,3 +349,573 @@
     justify-content: center;
   }
 }
+
+/* ===== WELCOME OVERLAY ===== */
+.welcomeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.welcomeModal {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+}
+
+.welcomeModal h2 {
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.welcomeModal p {
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+  color: #444;
+  font-size: 16px;
+}
+
+.welcomeModal p:last-of-type {
+  margin-bottom: 32px;
+}
+
+.welcomeBtn {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.blurred {
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== WELCOME OVERLAY ===== */
+.welcomeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.welcomeModal {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+}
+
+.welcomeModal h2 {
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.welcomeModal p {
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+  color: #444;
+  font-size: 16px;
+}
+
+.welcomeModal p:last-of-type {
+  margin-bottom: 32px;
+}
+
+.welcomeBtn {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.blurred {
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   Gate (popup) + blur lock
+   ========================= */
+
+.pageContent {
+  transition: filter 200ms ease, transform 200ms ease;
+}
+
+.homePage.is-locked .pageContent {
+  filter: blur(10px) saturate(0.9);
+  transform: scale(0.995);
+  pointer-events: none; /* blocks clicks behind modal */
+  user-select: none;
+}
+
+/* Fullscreen overlay */
+.gateOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+
+  padding: 1.25rem;
+
+  background: rgba(10, 12, 8, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Modal card */
+.gateModal {
+  width: min(560px, 92vw);
+  border-radius: 22px;
+
+  padding: 1.25rem 1.25rem 1.1rem;
+
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transform: translateY(0);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient whoosh animation */
+.gateModal::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  right: 0;
+  height: 200%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 229, 102, 0) 0%,
+    rgba(255, 229, 102, 0.4) 30%,
+    rgba(255, 229, 102, 0.6) 50%,
+    rgba(255, 229, 102, 0.4) 70%,
+    rgba(255, 229, 102, 0) 100%
+  );
+  animation: whoosh 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes whoosh {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Three badges in a row */
+.gateBadgeRow {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.gateBadge {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+
+  background: rgba(255, 229, 102, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.gateTitle {
+  margin: 0.65rem 0 0.4rem;
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.gateText {
+  margin: 0 0 0.75rem;
+  color: rgba(21, 22, 15, 0.72);
+  line-height: 1.45;
+}
+
+.gateList {
+  margin: 0 0 1rem;
+  padding-left: 1.15rem;
+  color: rgba(21, 22, 15, 0.76);
+  line-height: 1.45;
+}
+
+.gateActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.gateBtn {
+  min-width: 160px;
+}
+
+/* ===== EXISTING STYLES ===== */
+
+/* ===== WELCOME OVERLAY ===== */
+.welcomeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.welcomeModal {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+}
+
+.welcomeModal h2 {
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.welcomeModal p {
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+  color: #444;
+  font-size: 16px;
+}
+
+.welcomeModal p:last-of-type {
+  margin-bottom: 32px;
+}
+
+.welcomeBtn {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.blurred {
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== WELCOME OVERLAY ===== */
+.welcomeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.welcomeModal {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+}
+
+.welcomeModal h2 {
+  margin: 0 0 20px 0;
+  font-size: 28px;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.welcomeModal p {
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+  color: #444;
+  font-size: 16px;
+}
+
+.welcomeModal p:last-of-type {
+  margin-bottom: 32px;
+}
+
+.welcomeBtn {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.blurred {
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   Gate (popup) + blur lock
+   ========================= */
+
+.pageContent {
+  transition: filter 200ms ease, transform 200ms ease;
+}
+
+.homePage.is-locked .pageContent {
+  filter: blur(10px) saturate(0.9);
+  transform: scale(0.995);
+  pointer-events: none; /* blocks clicks behind modal */
+  user-select: none;
+}
+
+/* Fullscreen overlay */
+.gateOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+
+  padding: 1.25rem;
+
+  background: rgba(10, 12, 8, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Modal card */
+.gateModal {
+  width: min(560px, 92vw);
+  border-radius: 22px;
+
+  padding: 1.25rem 1.25rem 1.1rem;
+
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transform: translateY(0);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient whoosh animation - runs once */
+.gateModal::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  right: 0;
+  height: 200%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 229, 102, 0) 0%,
+    rgba(255, 229, 102, 0.4) 30%,
+    rgba(255, 229, 102, 0.6) 50%,
+    rgba(255, 229, 102, 0.4) 70%,
+    rgba(255, 229, 102, 0) 100%
+  );
+  animation: whoosh 1.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes whoosh {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Three badges in a row */
+.gateBadgeRow {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.gateBadge {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+
+  background: rgba(255, 229, 102, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.gateTitle {
+  margin: 0.65rem 0 0.4rem;
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.gateText {
+  margin: 0 0 0.75rem;
+  color: rgba(21, 22, 15, 0.72);
+  line-height: 1.45;
+}
+
+.gateList {
+  margin: 0 0 1rem;
+  padding-left: 1.15rem;
+  color: rgba(21, 22, 15, 0.76);
+  line-height: 1.45;
+  list-style-position: outside;
+}
+
+.gateList li {
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+
+.gateActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.gateBtn {
+  min-width: 160px;
+}
+
+/* ===== EXISTING STYLES ===== */

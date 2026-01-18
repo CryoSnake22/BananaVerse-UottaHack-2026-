@@ -116,7 +116,10 @@ export default function Home() {
   const [dir, setDir] = useState("next"); // next | prev
 
   const [saved, setSaved] = useState(() => Array(total).fill(null));
-  const [picked, setPicked] = useState(null); // current question selection (not yet saved unless OK/Save)
+  const [picked, setPicked] = useState(null);
+
+  // ✅ Modal gate (starts locked)
+  const [hasAcknowledged, setHasAcknowledged] = useState(false);
 
   const q = SURVEY_QUESTIONS[idx];
 
@@ -124,11 +127,21 @@ export default function Home() {
     setPicked(saved[idx] ?? null);
   }, [idx, saved]);
 
+  // ✅ Lock page scroll while modal is open
+  useEffect(() => {
+    if (!hasAcknowledged) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [hasAcknowledged]);
+
   const busy = phase !== "idle";
   const canPrev = idx > 0 && !busy;
   const canNext = !busy && Boolean(picked);
 
-  //const progress = useMemo(() => `Question ${idx + 1} of ${total}`, [idx, total]);
   const answered = useMemo(() => saved.filter(Boolean).length, [saved]);
 
   const commit = () => {
@@ -155,7 +168,7 @@ export default function Home() {
   const onNext = () => {
     if (!canNext) return;
     commit();
-    if (idx === last) return; // Save on last question
+    if (idx === last) return;
     go(idx + 1, "next");
   };
 
@@ -173,97 +186,137 @@ export default function Home() {
   };
 
   return (
-    <div className="homePage">
-      <div className="survey-title-header">
-        <h1 className="survey-title">Prototype Survey</h1>
-      </div>
-      <div className="homeLayout">
-        {/* LEFT: Question stage + buttons (buttons are NOT part of stage height) */}
-        <section className="surveyArea">
-          <div className="stageViewport" aria-live="polite">
-            <div className={`stageMotion ${phase} ${dir}`}>
-              <QuestionCard
-                key={q.id}
-                question={q.text}
-                imageSelectionCard={
-                  <ImageSelectionCard
-                    img1={q.images[0]}
-                    img2={q.images[1]}
-                    img3={q.images[2]}
-                    img4={q.images[3]}
-                    img5={q.images[4]}
-                    value={picked}
-                    onSelectionChange={setPicked}
-                  />
-                }
-              />
+    <div className={`homePage ${!hasAcknowledged ? "is-locked" : ""}`}>
+     
+      {!hasAcknowledged && (
+        <div
+          className="gateOverlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="gateTitle"
+        >
+          <div className="gateModal">
+            <div className="gateBadge">Before you start</div>
+
+            <h2 id="gateTitle" className="gateTitle">
+             Welcome to a survey in the BananaVerse!🍌 
+            </h2>
+
+            <p className="gateText">
+              Give us a PICTURE of your experience by choosing elements that shape your very own AI-generated BananaScape Landscape.
+            </p>
+
+            <ul className="gateList">
+              <li>Pick the image the feels right per question</li>
+              <li>Go back and change your landscape elements</li>
+              <li>Your “Landscape Shelf” fills as you go</li>
+            </ul>
+
+            <div className="gateActions">
+              <button
+                className="btn primary gateBtn"
+                type="button"
+                onClick={() => setHasAcknowledged(true)}
+                autoFocus
+              >
+                I understand
+              </button>
             </div>
           </div>
+        </div>
+      )}
 
-          <div className="actions">
-            <div className="actionsRow">
-              <button className="btn secondary" type="button" onClick={onClear}>
-                Clear Form
-              </button>
+      <div className="pageContent">
+        <div className="survey-title-header">
+          <h1 className="survey-title">Prototype Survey</h1>
+        </div>
 
-              <div className="navGroup">
-                <button
-                  className="btn secondary"
-                  type="button"
-                  onClick={onPrev}
-                  disabled={!canPrev}
-                >
-                  Previous
-                </button>
-
-                <button
-                  className="btn primary"
-                  type="button"
-                  onClick={onNext}
-                  disabled={!canNext}
-                  title={!picked ? "Pick an image first" : ""}
-                >
-                  {idx === last ? "Save" : "OK"}
-                </button>
+        <div className="homeLayout">
+          <section className="surveyArea">
+            <div className="stageViewport" aria-live="polite">
+              <div className={`stageMotion ${phase} ${dir}`}>
+                <QuestionCard
+                  key={q.id}
+                  question={q.text}
+                  imageSelectionCard={
+                    <ImageSelectionCard
+                      img1={q.images[0]}
+                      img2={q.images[1]}
+                      img3={q.images[2]}
+                      img4={q.images[3]}
+                      img5={q.images[4]}
+                      value={picked}
+                      onSelectionChange={setPicked}
+                    />
+                  }
+                />
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* RIGHT: Shelf equals stage height and aligns horizontally */}
-        <aside className="shelfPanel" aria-label="Selections shelf">
-          <header className="shelfHeader">
-            <div className="shelfTitle">Landscape Shelf</div>
-            <div className="shelfMeta">
-              Saved: <b>{answered}</b> / {total}
+            <div className="actions">
+              <div className="actionsRow">
+                <button className="btn secondary" type="button" onClick={onClear}>
+                  Clear Form
+                </button>
+
+                <div className="navGroup">
+                  <button
+                    className="btn secondary"
+                    type="button"
+                    onClick={onPrev}
+                    disabled={!canPrev}
+                  >
+                    Previous
+                  </button>
+
+                  <button
+                    className="btn primary"
+                    type="button"
+                    onClick={onNext}
+                    disabled={!canNext}
+                    title={!picked ? "Pick an image first" : ""}
+                  >
+                    {idx === last ? "Save" : "OK"}
+                  </button>
+                </div>
+              </div>
             </div>
-          </header>
+          </section>
 
-          <div className="shelfGrid" role="list">
-            {saved.map((src, i) => (
-              <div
-                key={i}
-                className={`shelfItem ${src ? "has" : ""}`}
-                role="listitem"
-              >
-                <div className="shelfItemTop">
-                  <div className="shelfQ">Q{i + 1}</div>
-                  <div className={`shelfStatus ${src ? "done" : ""}`}>
-                    {src ? "Selected" : "Empty"}
+          <aside className="shelfPanel" aria-label="Selections shelf">
+            <header className="shelfHeader">
+              <div className="shelfTitle">Landscape Shelf</div>
+              <div className="shelfMeta">
+                Saved: <b>{answered}</b> / {total}
+              </div>
+            </header>
+
+            <div className="shelfGrid" role="list">
+              {saved.map((src, i) => (
+                <div
+                  key={i}
+                  className={`shelfItem ${src ? "has" : ""}`}
+                  role="listitem"
+                >
+                  <div className="shelfItemTop">
+                    <div className="shelfQ">Q{i + 1}</div>
+                    <div className={`shelfStatus ${src ? "done" : ""}`}>
+                      {src ? "Selected" : "Empty"}
+                    </div>
+                  </div>
+
+                  <div className="shelfThumb">
+                    {src ? (
+                      <img src={src} alt={`Selection for question ${i + 1}`} />
+                    ) : (
+                      <div className="shelfThumbEmpty">—</div>
+                    )}
                   </div>
                 </div>
-
-                <div className="shelfThumb">
-                  {src ? (
-                    <img src={src} alt={`Selection for question ${i + 1}`} />
-                  ) : (
-                    <div className="shelfThumbEmpty">—</div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </aside>
+              ))}
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );
