@@ -123,29 +123,37 @@ export default function Home() {
 
   const q = SURVEY_QUESTIONS[idx];
 
-  const [aiText, setAiText] = useState("");
+  const [puns, setPuns] = useState(Array(SURVEY_QUESTIONS.length).fill(""));
+
+  const aiText = puns[idx] || "";
 
   useEffect(() => {
-  if (!q || !picked) return;
-
-  async function fetchAiPun() {
+  async function fetchAllPuns() {
     try {
-      const res = await fetch("http://localhost:8000/generate-pun", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: q.text, theme: "banana" }), // replace "banana" with your theme if needed
+      const punPromises = SURVEY_QUESTIONS.map((q) => {
+        const theme = q.images[0].split("/").pop().split("_")[0];
+        return fetch("http://localhost:8000/generate-pun", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: q.text, theme }),
+        })
+          .then((res) => res.json())
+          .then((data) => data.pun)
+          .catch((err) => {
+            console.error("Failed to generate pun for question", q.id, err);
+            return ""; // fallback
+          });
       });
 
-      const data = await res.json();
-      setAiText(data.pun); // <-- set the bubble text here
+      const results = await Promise.all(punPromises);
+      setPuns(results);
     } catch (err) {
-      console.error("Failed to generate AI pun:", err);
-      setAiText("");
+      console.error("Failed to fetch puns:", err);
     }
   }
 
-  fetchAiPun();
-}, [q, picked]); // triggers every time piecked (current image selected) changes
+  fetchAllPuns();
+}, []);
 
 
   useEffect(() => {

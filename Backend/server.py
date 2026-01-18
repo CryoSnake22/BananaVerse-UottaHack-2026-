@@ -122,13 +122,11 @@ def generate_pun(req: PunRequest):
         )
 
         pun_text = response.text
-        print(pun_text)
         return {"pun": pun_text}
 
     except Exception as e:
         print("Gemini API error:", e)
         raise HTTPException(status_code=500, detail="Failed to generate pun")
-
 
 if __name__ == "__main__":
     import uvicorn
