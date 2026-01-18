@@ -7,11 +7,11 @@ import "../css/Home.css";
 // slide init:
 const OPTIONS = { loop: false };
 const SLIDES = [
-  "/images/weather_1.png",
-  "/images/weather_2.png",
-  "/images/weather_3.png",
-  "/images/weather_4.png",
-  "/images/weather_5.png",
+  "/images/landscape_1.png",
+  "/images/landscape_4.png",
+  "/images/landscape_2.png",
+  "/images/landscape_5.png",
+  "/images/landscape_3.png",
 ];
 
 // Placeholder component for the final landscape visualization
@@ -20,7 +20,7 @@ const FinalLandscapePreview = () => {
     <div>
       <h3 className="text-h3">Final Landscape Preview</h3>
       <p className="text-p" style={{marginBottom: "1rem"}}>
-        (This is an example of the type of landscape users will create as they complete your form.)
+        This is an example of the type of landscape users will create as they complete your form.
       </p>
       <div className="dashed-border">
         <Carousel slides={SLIDES} options={OPTIONS}/>
@@ -37,32 +37,32 @@ const Home = () => {
       <section className="text-center">
         <h1 className="page-title">Welcome to BananaVerse</h1>
         <p className="text-p">
-          Transform how you collect feedback. Keep your users engaged with fun,
-          interactive forms that turn every response into a growing landscape.
+          Turn feedback into a visual landscape that grows with every question—pick images, click submit, and unveil a personalized AI-generated landscape.
+
         </p>
       </section>
 
       {/* Why Use BananaVerse Section */}
       <section>
-        <h2 className="text-h2">Why Organizers Love BananaVerse</h2>
+        <h2 className="text-h2">Why Organizations Love BananaVerse</h2>
         <ul>
           <li>
             <h3>Engaging Experience</h3>
             <p>
-              Users answer questions by selecting images and building their
-              personal landscapes—making feedback fun and interactive.
+              Users answer questions by selecting images that reflect their experience most, building their
+              personal AI-generated landscapes to keep. 
             </p>
           </li>
           <li>
             <h3>More Responses</h3>
             <p>
-              Traditional forms are boring. Our gamified approach encourages
+              Traditional surveys are boring. Our dynamic, gamified approach encourages
               frequent participation and higher completion rates.
             </p>
           </li>
           <li style={{ opacity: 0.7 }}>
             <h3>AI Insights*</h3>
-            <p>Behind the scenes, AI analyzes user choices to understand sentiment and trends without slowing down engagement.</p>
+            <p>Behind the scenes, AI-driven analysis combines image choices with user information to uncover sentiment and experience insights for your business.</p>
             <p>COMING SOON</p>
           </li>
         </ul>
@@ -73,9 +73,11 @@ const Home = () => {
         <h2 className="text-h2" style={{ margin: "0rem" }}>
           See BananaVerse in Action
         </h2>
+        
         <p className="text-p" style={{ margin: "0rem" }}>
-          Here's an example question users might see:
+          An exmaple in action...
         </p>
+        <p></p>
         <div
           style={{
             animation: "slideUpFade 1s ease-out forwards",
@@ -87,11 +89,11 @@ const Home = () => {
             question="How would you describe overall experience?"
             imageSelectionCard={
               <ImageSelectionCard
-                img1="/images/tree_1.png"
-                img2="/images/tree_2.png"
-                img3="/images/tree_3.png"
-                img4="/images/tree_4.png"
-                img5="/images/tree_5.png"
+                img1="/images/house_1.png"
+                img2="/images/house_2.png"
+                img3="/images/house_3.png"
+                img4="/images/house_4.png"
+                img5="/images/house_5.png"
                 value={picked}
                 onSelectionChange={setPicked}
               />
@@ -106,10 +108,9 @@ const Home = () => {
           The Big Picture: User Landscapes
         </h2>
         <p className="text-p" style={{ margin: "0rem" }}>
-          Users stay motivated by building their own personal landscapes as they
-          answer questions. Each volcano, star, or tree they add contributes to
-          a unique world — this gamified experience keeps them hooked, so you
-          get more responses and richer feedback.
+          Users stay engaged by building a personal landscape as they answer questions. Each choice—house styles, sky moods, and 
+          animal companions—adds to a unique world, turning feedback into a fun, gamified experience that drives higher completion 
+          and richer insights.
         </p>
         <p className="text-p" style={{ fontSize: "1.125rem" }}>
           Organizers receive detailed insights and sentiment analysis from every

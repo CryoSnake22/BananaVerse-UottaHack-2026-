@@ -346,6 +346,7 @@
 }
 .survey-title-header {
   display: flex;
+  flex-direction: row;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
   margin-bottom: clamp(0.5rem, 1.2vw, 0.75rem);
@@ -357,7 +358,11 @@
   width: 100%;
   box-sizing: border-box;
   align-items: baseline;
-  gap: clamp(10rem, 1vw, 1rem); /* horizontal spacing between h1 and p */
+  gap: clamp(-30%, 1vw, 1rem); /* horizontal spacing between h1 and p */
+}
+
+.survey-title-header p {
+  margin-left: 3%;
 }
 
 .survey-title {
