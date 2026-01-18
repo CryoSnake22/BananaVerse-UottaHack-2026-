@@ -19,88 +19,88 @@ const SURVEY_QUESTIONS = [
     id: 2,
     text: "How likely are you to recommend us?",
     images: [
-      "/images/tree_1.png",
-      "/images/tree_2.png",
-      "/images/tree_3.png",
-      "/images/tree_4.png",
-      "/images/tree_5.png",
+      "/images/charriot_1.png",
+      "/images/charriot_2.png",
+      "/images/charriot_3.png",
+      "/images/charriot_4.png",
+      "/images/charriot_5.png",
     ],
   },
   {
     id: 3,
     text: "How was the speed of service?",
     images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
+      "/images/house_1.png",
+      "/images/house_2.png",
+      "/images/house_3.png",
+      "/images/house_4.png",
+      "/images/house_5.png",
     ],
   },
   {
     id: 4,
     text: "How was your overall experience?",
     images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
+      "/images/monkey_1.png",
+      "/images/monkey_2.png",
+      "/images/monkey_3.png",
+      "/images/monkey_4.png",
+      "/images/monkey_5.png",
     ],
   },
   {
     id: 5,
     text: "How likely are you to recommend us?",
     images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
+      "/images/oasis_1.png",
+      "/images/oasis_2.png",
+      "/images/oasis_3.png",
+      "/images/oasis_4.png",
+      "/images/oasis_5.png",
     ],
   },
   {
     id: 6,
     text: "How was the speed of service?",
     images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
+      "/images/weather_1.png",
+      "/images/weather_2.png",
+      "/images/weather_3.png",
+      "/images/weather_4.png",
+      "/images/weather_5.png",
     ],
   },
   {
     id: 7,
     text: "How was your overall experience?",
     images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
+      "/images/wolf_1.png",
+      "/images/wolf_2.png",
+      "/images/wolf_3.png",
+      "/images/wolf_4.png",
+      "/images/wolf_5.png",
     ],
   },
   {
     id: 8,
     text: "How likely are you to recommend us?",
     images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
+      "/images/grass_1.png",
+      "/images/grass_2.png",
+      "/images/grass_3.png",
+      "/images/grass_4.png",
+      "/images/grass_5.png",
     ],
   },
   {
     id: 9,
     text: "How was the speed of service?",
     images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
+      "/images/cacti_1.png",
+      "/images/cacti_2.png",
+      "/images/cacti_3.png",
+      "/images/cacti_4.png",
+      "/images/cacti_5.png",
     ],
   },
 ];
@@ -122,6 +122,31 @@ export default function Home() {
   const [hasAcknowledged, setHasAcknowledged] = useState(false);
 
   const q = SURVEY_QUESTIONS[idx];
+
+  const [aiText, setAiText] = useState("");
+
+  useEffect(() => {
+  if (!q || !picked) return;
+
+  async function fetchAiPun() {
+    try {
+      const res = await fetch("http://localhost:8000/generate-pun", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: q.text, theme: "banana" }), // replace "banana" with your theme if needed
+      });
+
+      const data = await res.json();
+      setAiText(data.pun); // <-- set the bubble text here
+    } catch (err) {
+      console.error("Failed to generate AI pun:", err);
+      setAiText("");
+    }
+  }
+
+  fetchAiPun();
+}, [q, picked]); // triggers every time piecked (current image selected) changes
+
 
   useEffect(() => {
     setPicked(saved[idx] ?? null);
@@ -318,6 +343,13 @@ export default function Home() {
           </aside>
         </div>
       </div>
+      
+      <aside className="aiPanel" aria-label="AI helper">
+        <div className="aiCharacter">
+          <img src="/images/ai_bot.png" alt="AI assistant" />
+          <div className="aiBubble">{aiText}</div>
+        </div>
+      </aside>
     </div>
   );
 }

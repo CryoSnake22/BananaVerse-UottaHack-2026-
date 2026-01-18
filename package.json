@@ -1,0 +1,27 @@
+{
+  "name": "uottawa-hack-8",
+  "version": "1.0.0",
+  "description": "Short one-sentence description of what the project does and why it matters.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiyaCC/uOttawa-Hack-8.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DiyaCC/uOttawa-Hack-8/issues"
+  },
+  "homepage": "https://github.com/DiyaCC/uOttawa-Hack-8#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "openai": "^6.16.0"
+  }
+}
