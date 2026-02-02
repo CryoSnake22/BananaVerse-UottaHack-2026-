@@ -1,4 +1,13 @@
 # BananaVerse
+
+<p align="center">
+  <img src="Backend/assets/_landscapes_/final_composite_landscape.png" width="700">
+</p>
+
+<p align="center">
+  <img src="Backend/assets/_landscapes_/demolandscape.png" width="700">
+</p>
+
 ## Instalation
 Make sure you have the following installed on your system:
 - **Node.js**
